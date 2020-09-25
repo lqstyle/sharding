@@ -45,6 +45,6 @@ public class TOrderController {
     tOrder1.setOrderName("dd");
     tOrder1.setOrderStatus(1);
     tOrders.add(tOrder1);
-    tOrderService.saveBatch(tOrders);
+    tOrderService.saveBatch(tOrders,20);
   }
 }
