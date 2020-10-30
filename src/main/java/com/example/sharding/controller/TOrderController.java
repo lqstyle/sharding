@@ -47,4 +47,12 @@ public class TOrderController {
     tOrders.add(tOrder1);
     tOrderService.saveBatch(tOrders,20);
   }
+
+  @RequestMapping("/orderGet")
+  @ApiOperation(value = "读写分离")
+  public void get() {
+    TOrder tOrder = new TOrder();
+    tOrder.setId(3L);
+    System.out.println(tOrderService.getById(tOrder));
+  }
 }

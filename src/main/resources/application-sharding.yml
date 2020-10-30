@@ -1,0 +1,25 @@
+#自定义分片策略
+spring:
+  #shardingsphere 分库分表配置
+  shardingsphere:
+    datasource:
+      name: ds0
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://192.168.2.217:3306/ds0?allowMultiQueries=true
+        username: opsa
+        password: pass123456
+    # 数据库表分片
+    sharding:
+      #表策略 其中t_order为逻辑表 分表主要取决于order_id行
+      tables:
+        t_order:
+          actualDataNodes: ds${0}.t_order${0..1}
+          table-strategy:
+            standard:
+              precise-algorithm-class-name: com.example.sharding.shardingAlogrith.MyPreciseDatabaseMessageShardingAlgorithm #精确分片算法类名称，用于=和IN。。该类需实现PreciseShardingAlgorithm接口并提供无参数的构造器
+              sharding-column: order_id  #分片建
+    props:
+      sql:
+        show: true # 打印分片后真实执行的sql

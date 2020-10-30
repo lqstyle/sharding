@@ -1,0 +1,28 @@
+#只分表，不分库
+spring:
+  #shardingsphere 分库分表配置
+  shardingsphere:
+    datasource:
+      name: ds0
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://192.168.2.217:3306/ds0?allowMultiQueries=true
+        username: opsa
+        password: pass123456
+    # 数据库表分片
+    sharding:
+      #表策略 其中t_order为逻辑表 分表主要取决于order_id行
+      tables:
+        t_order:
+          actualDataNodes: ds$->{0}.t_order$->{0..1}
+          tableStrategy:
+            inline:
+              shardingColumn: order_id  # 表分片算法
+              algorithmExpression: t_order$->{order_id % 2}
+          keyGenerator:
+            column: id
+            type: SNOWFLAKE   # id 生成算法，使用默认的雪花算法
+    props:
+      sql:
+        show: true # 打印分片后真实执行的sql
