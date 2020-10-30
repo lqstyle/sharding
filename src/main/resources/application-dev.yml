@@ -26,7 +26,7 @@ spring:
       #表策略 其中t_order为逻辑表 分表主要取决于order_id行
       tables:
         t_order:
-          actualDataNodes: ds$->{0..1}.t_order$->{0..1}
+          actualDataNodes: ds$->{0..1}.t_order$->{0..1}  #行表达式  等价于ds0.t_order0,ds1.t_order0,ds1.t_order0,ds0.t_order1
           tableStrategy:
             inline:
               shardingColumn: order_id  # 表分片算法
